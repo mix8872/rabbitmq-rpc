@@ -1,0 +1,34 @@
+{
+    "name": "mix8872/rabbitmq-rpc",
+    "description": "Json RPC implementation over rabbitmq",
+    "type": "composer-plugin",
+    "require": {
+        "needle-project/laravel-rabbitmq": "dev-master"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mix8872\\RabbitmqRpc\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mix8872",
+            "email": "mix8872@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "repositories": {
+        "flatpickr": {
+            "type": "path",
+            "url": "./plugins/flatpickr",
+            "options": {
+                "symlink": true
+            }
+        },
+        "needle-project/laravel-rabbitmq": {
+            "type": "git",
+            "url": "git@github.com:mix8872/laravel-rabbitmq.git"
+        }
+    }
+}
