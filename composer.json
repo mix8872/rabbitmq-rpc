@@ -1,7 +1,6 @@
 {
     "name": "mix8872/rabbitmq-rpc",
     "description": "Json RPC implementation over rabbitmq",
-    "type": "composer-plugin",
     "require": {
         "needle-project/laravel-rabbitmq": "dev-master"
     },
@@ -17,7 +16,8 @@
             "email": "mix8872@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "repositories": {
         "flatpickr": {
             "type": "path",
