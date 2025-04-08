@@ -10,7 +10,7 @@ class RMQRpcValidator
     {
         return Validator::make($data, [
             'request_id' => 'string|required', // current request id
-            'reply_to' => 'string|required', // queue name
+            'reply_to' => 'string|required', // route name
             'action' => 'string|required_without:error|regex:/[a-z]+\.[a-z]+/ui',
             'attributes' => 'array',
             'error' => 'string|required_without:action', // error message on previous request

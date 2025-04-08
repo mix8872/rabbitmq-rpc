@@ -6,12 +6,13 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use NeedleProject\LaravelRabbitMq\PublisherInterface;
+use NeedleProject\LaravelRabbitMq\Entity\ExchangeEntity;
 
 /**
  * Класс для отправки RPC запросов через rabbitMQ
  * формат запроса:
  *      'request_id' => 'string|required', // current request id - добавляется автоматически
- *      'reply_to' => 'string|required', // queue name - добавляется автоматически
+ *      'reply_to' => 'string|required', // route name - добавляется автоматически
  *      'action' => 'string|required_without:error|regex:/[a-z]+\.[a-z]+/ui', // формат поля action: 'псевдоним_класса.метод'
  *                                                                              псевдоним_класса - ключ массива в конфиге laravel_rabbitmq.rpc
  *      'attributes' => 'array', // массив атрибутов [ключ => значение]
@@ -29,7 +30,7 @@ class RMQRpcPublisher
 {
     private static ?self $_instance = null;
 
-    public ?string $publisher = null;
+    public ?ExchangeEntity $publisher = null;
 
     private string $action;
 
@@ -42,7 +43,7 @@ class RMQRpcPublisher
     /**
      * @throws BindingResolutionException
      */
-    private function __construct(?string $publisher)
+    private function __construct(?string $publisherName)
     {
         if (! $publishers = config('laravel_rabbitmq.publishers')) {
             Log::error('RMQ: no publishers defined');
@@ -52,7 +53,7 @@ class RMQRpcPublisher
         /* Если указан публикатор, то берем его, иначе первый из конфига
          * (публикаторы указываются тут laravel_rabbitmq.publishers)
          */
-        $arPublisher = $publisher && isset($publishers[$publisher]) ? [$publisher] : [array_pop($pKeys)];
+        $arPublisher = $publisherName && isset($publishers[$publisherName]) ? [$publisher] : [array_pop($pKeys)];
 
         $this->publisher = app()->makeWith(PublisherInterface::class, $arPublisher);
     }
@@ -60,10 +61,10 @@ class RMQRpcPublisher
     /**
      * @throws BindingResolutionException
      */
-    public static function make(?string $publisher = null): self
+    public static function make(?string $publisherName = null): self
     {
         if (! self::$_instance) {
-            self::$_instance = new self($publisher);
+            self::$_instance = new self($publisherName);
         }
 
         return self::$_instance;
