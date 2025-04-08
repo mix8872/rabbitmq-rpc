@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use NeedleProject\LaravelRabbitMq\PublisherInterface;
 use NeedleProject\LaravelRabbitMq\Entity\ExchangeEntity;
+use PhpAmqpLib\Exception\AMQPProtocolChannelException;
 
 /**
  * Класс для отправки RPC запросов через rabbitMQ
@@ -118,6 +119,7 @@ class RMQRpcPublisher
      * Собирает тело запроса и отправляет запрос в rmq
      * @param string|array $routingKey
      * @return mixed
+     * @throws AMQPProtocolChannelException
      */
     public function publish(string|array $routingKey): mixed
     {
@@ -129,7 +131,7 @@ class RMQRpcPublisher
         $this->error ? $arData['error'] = $this->error : false;
         $this->replyFor ? $arData['reply_for'] = $this->replyFor : false;
 
-        $validator = RMQRpcValidator::make();
+        $validator = RMQRpcValidator::make($arData);
 
         if ($validator->fails()) {
             throw \Exception('RMQ publish fails: '.$validator->errors()->toJson());
@@ -152,6 +154,7 @@ class RMQRpcPublisher
      * @param string $data
      * @param $routingKey
      * @return mixed
+     * @throws AMQPProtocolChannelException
      */
     private function send(array $arData, string $data, $routingKey): mixed
     {
