@@ -32,13 +32,13 @@ class RMQRpcPublisher
 
     public ?ExchangeEntity $publisher = null;
 
-    private string $action;
+    private ?string $action = null;
 
-    private string $error;
+    private ?string $error = null;
 
-    private array $attributes;
+    private ?array $attributes = null;
 
-    private string $replyFor;
+    private ?string $replyFor = null;
 
     /**
      * @throws BindingResolutionException
