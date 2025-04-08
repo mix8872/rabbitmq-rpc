@@ -2,6 +2,7 @@
     "name": "mix8872/rabbitmq-rpc",
     "description": "Json RPC implementation over rabbitmq",
     "require": {
+        "php": "^8.3",
         "needle-project/laravel-rabbitmq": "dev-master"
     },
     "license": "MIT",

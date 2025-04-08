@@ -8,7 +8,23 @@ use function App\Classes\config;
 
 class Logger
 {
-    public static function log(string $message, string $type = 'error', ?string $debugData = null)
+    /**
+     * @param string $message
+     * @param string|null $debugData
+     * @return void
+     */
+    public static function info(string $message, ?string $debugData = null): void
+    {
+        self::log($message, 'info', $debugData);
+    }
+
+    /**
+     * @param string $message
+     * @param string $type
+     * @param string|null $debugData
+     * @return void
+     */
+    public static function log(string $message, string $type = 'error', ?string $debugData = null): void
     {
         Log::{$type}($message);
         if ($debugData && config('app.debug')) {
