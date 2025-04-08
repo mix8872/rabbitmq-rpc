@@ -74,6 +74,6 @@ class RMQRpcProcessor extends AbstractMessageProcessor
         $ref = new \ReflectionMethod($processors[$class], $method);
         $attributes = $arData['attributes'] ?? [];
 
-        return $ref->isStatic() ? $processors[$class]::$method(...$attributes) : (new $processors[$class])->{$method}(...$attributes);
+        return $ref->isStatic() ? $processors[$class]::$method(...$attributes, arData: $arData) : (new $processors[$class]($arData))->{$method}(...$attributes);
     }
 }
