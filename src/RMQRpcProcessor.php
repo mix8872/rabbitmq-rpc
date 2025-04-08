@@ -71,9 +71,9 @@ class RMQRpcProcessor extends AbstractMessageProcessor
         }
 
         // зеркалируем метод для проверки
-        $ref = new \ReflectionMethod($class, $method);
+        $ref = new \ReflectionMethod($processors[$class], $method);
         $attributes = $arData['attributes'] ?? [];
 
-        return $ref->isStatic() ? $class::$method(...$attributes) : (new $class)->{$method}(...$attributes);
+        return $ref->isStatic() ? $processors[$class]::$method(...$attributes) : (new $processors[$class])->{$method}(...$attributes);
     }
 }
