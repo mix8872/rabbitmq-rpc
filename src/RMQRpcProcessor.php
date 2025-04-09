@@ -52,7 +52,7 @@ class RMQRpcProcessor extends AbstractMessageProcessor
         }
     }
 
-    private function runAction($arData)
+    public function runAction(array $arData)
     {
         [$class, $method] = explode('.', $arData['action']);
 
@@ -74,6 +74,8 @@ class RMQRpcProcessor extends AbstractMessageProcessor
         $ref = new \ReflectionMethod($processors[$class], $method);
         $attributes = $arData['attributes'] ?? [];
 
-        return $ref->isStatic() ? $processors[$class]::$method(...$attributes, arData: $arData) : (new $processors[$class]($arData))->{$method}(...$attributes);
+        return $ref->isStatic()
+            ? (($attributes['arData'] = $arData) && $processors[$class]::$method(...$attributes))
+            : (new $processors[$class]($arData))->{$method}(...$attributes);
     }
 }
