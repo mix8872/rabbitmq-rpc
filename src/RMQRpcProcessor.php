@@ -60,7 +60,7 @@ class RMQRpcProcessor extends AbstractMessageProcessor
             /* формат поля action: '<псевдоним_класса>.<метод>'
              * псевдоним_класса - ключ массива в конфиге laravel_rabbitmq.rpc
              */
-            case !$processors = config('laravel_rabbitmq.rpc.processors'): // если не заданы обработчики в конфиге
+            case !$processors = \config('laravel_rabbitmq.rpc.processors'): // если не заданы обработчики в конфиге
                 throw new \Exception('нет обработчиков RPC в конфиге laravel_rabbitmq.rpc.processors');
             case !isset($processors[$class]): // если запрошенный псевдоним класса обработчика не найден в конфиге
                 throw new \Exception("псевдоним класса обработчика '$class' не найден");

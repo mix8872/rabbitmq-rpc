@@ -27,7 +27,7 @@ class Logger
     public static function log(string $message, string $type = 'error', ?string $debugData = null): void
     {
         Log::{$type}($message);
-        if ($debugData && config('app.debug')) {
+        if ($debugData && \config('app.debug')) {
             Log::error($debugData);
         }
     }

@@ -46,7 +46,7 @@ class RMQRpcPublisher
      */
     private function __construct(?string $publisherName)
     {
-        if (! $publishers = config('laravel_rabbitmq.publishers')) {
+        if (! $publishers = \config('laravel_rabbitmq.publishers')) {
             Log::error('RMQ: no publishers defined');
         }
         $pKeys = array_keys($publishers);
@@ -124,8 +124,8 @@ class RMQRpcPublisher
     public function publish(string|array $routingKey): mixed
     {
         $arData = [];
-        $arData['request_id'] = config('app.name').'_'.time();
-        $arData['reply_to'] = config('app.name');
+        $arData['request_id'] = \config('app.name').'_'.time();
+        $arData['reply_to'] = \config('app.name');
         $this->action ? $arData['action'] = $this->action : false;
         $this->attributes ? $arData['attributes'] = $this->attributes : false;
         $this->error ? $arData['error'] = $this->error : false;
@@ -158,7 +158,7 @@ class RMQRpcPublisher
      */
     private function send(array $arData, string $data, $routingKey): mixed
     {
-        if (config('app.debug')) {
+        if (\config('app.debug')) {
             Log::info("The RMQ message was sent to route $routingKey: \n".print_r($arData, 1));
         }
         return $this->publisher->publish($data, $routingKey, ['delivery_mode' => 2]);

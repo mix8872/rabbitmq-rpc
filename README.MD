@@ -39,7 +39,7 @@
                 'bind' => [
                     ['exchange' => 'GRCHExchanger', 'routing_key' => 'projectsData'], // подписываем очередь на обновления проектов
                     ['exchange' => 'GRCHExchanger', 'routing_key' => 'usersData'], // подписываем очередь на обновления пользователей
-                    ['exchange' => 'GRCHExchanger', 'routing_key' => config('app.name')], // собственная очередь сервиса
+                    ['exchange' => 'GRCHExchanger', 'routing_key' => \config('app.name')], // собственная очередь сервиса
                 ],
             ],
         ],
