@@ -158,9 +158,8 @@ class RMQRpcPublisher
      */
     private function send(array $arData, string $data, $routingKey): mixed
     {
-        if (\config('app.debug')) {
-            Log::info("The RMQ message was sent to route $routingKey: \n".print_r($arData, 1));
-        }
+        Logger::log(message: "The RMQ message was sent to route $routingKey \n", debugData: print_r($arData, 1));
+
         return $this->publisher->publish($data, $routingKey, ['delivery_mode' => 2]);
     }
 }
