@@ -3,7 +3,7 @@
     "description": "Json RPC implementation over rabbitmq",
     "require": {
         "php": "^8.3",
-        "needle-project/laravel-rabbitmq": "*"
+        "needle-project/laravel-rabbitmq": "dev-alt"
     },
     "license": "MIT",
     "autoload": {
